@@ -1,0 +1,23 @@
+
+version: '3'
+services:
+  influxdb:
+    image: influxdb:latest
+    container_name: influxdb
+    ports:
+      - "8086:8086"  # Expose the InfluxDB HTTP API port
+    environment:
+      - INFLUXDB_DB=my-db
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=admin_password
+      - INFLUXDB_USER=user
+      - INFLUXDB_USER_PASSWORD=user_password
+      - INFLUXDB_HTTP_ENABLED=true # Allows login in local network
+    volumes:
+      - influxdb_data:/var/lib/influxdb  # Mount a volume for data persistence
+    command:
+      - influxd
+      - --http-bind-address=0.0.0.0:8086  # Listen on all network interfaces
+
+volumes:
+  influxdb_data:
