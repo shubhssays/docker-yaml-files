@@ -1,0 +1,27 @@
+
+services:
+  databasus:
+    container_name: databasus
+    image: databasus/databasus:latest
+    ports:
+      - "4005:4005"
+    volumes:
+      - ./databasus-data:/databasus-data
+    restart: unless-stopped
+    networks:
+      - dbnet
+
+  my_postgres:
+    image: postgres:17
+    container_name: my_postgres
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: mydb
+    ports:
+      - "5435:5432"
+    networks:
+      - dbnet
+
+networks:
+  dbnet:
